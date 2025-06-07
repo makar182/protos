@@ -9,6 +9,8 @@ service Auth {
   rpc Logout (LogoutRequest) returns (LogoutResponse);
   rpc Register (RegisterRequest) returns (RegisterResponse);
   rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+  rpc SetAdmin (SetAdminRequest) returns (SetAdminResponse);
+  rpc IsUserAuthorized (IsUserAuthorizedRequest) returns (IsUserAuthorizedResponse);
 }
 
 message LoginRequest {
@@ -45,4 +47,20 @@ message IsAdminRequest {
 
 message IsAdminResponse {
   bool is_admin = 1;
+}
+
+message SetAdminRequest {
+  int64 user_id = 1;
+}
+
+message SetAdminResponse {
+  bool success = 1;
+}
+
+message IsUserAuthorizedRequest {
+  int64 user_id = 1;
+}
+
+message IsUserAuthorizedResponse {
+  bool is_user_authorized = 1;
 }

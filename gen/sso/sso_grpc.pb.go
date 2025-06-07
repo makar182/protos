@@ -19,10 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Auth_Login_FullMethodName    = "/auth.Auth/Login"
-	Auth_Logout_FullMethodName   = "/auth.Auth/Logout"
-	Auth_Register_FullMethodName = "/auth.Auth/Register"
-	Auth_IsAdmin_FullMethodName  = "/auth.Auth/IsAdmin"
+	Auth_Login_FullMethodName            = "/auth.Auth/Login"
+	Auth_Logout_FullMethodName           = "/auth.Auth/Logout"
+	Auth_Register_FullMethodName         = "/auth.Auth/Register"
+	Auth_IsAdmin_FullMethodName          = "/auth.Auth/IsAdmin"
+	Auth_SetAdmin_FullMethodName         = "/auth.Auth/SetAdmin"
+	Auth_IsUserAuthorized_FullMethodName = "/auth.Auth/IsUserAuthorized"
 )
 
 // AuthClient is the client API for Auth service.
@@ -33,6 +35,8 @@ type AuthClient interface {
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	IsAdmin(ctx context.Context, in *IsAdminRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
+	SetAdmin(ctx context.Context, in *SetAdminRequest, opts ...grpc.CallOption) (*SetAdminResponse, error)
+	IsUserAuthorized(ctx context.Context, in *IsUserAuthorizedRequest, opts ...grpc.CallOption) (*IsUserAuthorizedResponse, error)
 }
 
 type authClient struct {
@@ -83,6 +87,26 @@ func (c *authClient) IsAdmin(ctx context.Context, in *IsAdminRequest, opts ...gr
 	return out, nil
 }
 
+func (c *authClient) SetAdmin(ctx context.Context, in *SetAdminRequest, opts ...grpc.CallOption) (*SetAdminResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetAdminResponse)
+	err := c.cc.Invoke(ctx, Auth_SetAdmin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authClient) IsUserAuthorized(ctx context.Context, in *IsUserAuthorizedRequest, opts ...grpc.CallOption) (*IsUserAuthorizedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IsUserAuthorizedResponse)
+	err := c.cc.Invoke(ctx, Auth_IsUserAuthorized_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServer is the server API for Auth service.
 // All implementations must embed UnimplementedAuthServer
 // for forward compatibility.
@@ -91,6 +115,8 @@ type AuthServer interface {
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	IsAdmin(context.Context, *IsAdminRequest) (*IsAdminResponse, error)
+	SetAdmin(context.Context, *SetAdminRequest) (*SetAdminResponse, error)
+	IsUserAuthorized(context.Context, *IsUserAuthorizedRequest) (*IsUserAuthorizedResponse, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -112,6 +138,12 @@ func (UnimplementedAuthServer) Register(context.Context, *RegisterRequest) (*Reg
 }
 func (UnimplementedAuthServer) IsAdmin(context.Context, *IsAdminRequest) (*IsAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsAdmin not implemented")
+}
+func (UnimplementedAuthServer) SetAdmin(context.Context, *SetAdminRequest) (*SetAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetAdmin not implemented")
+}
+func (UnimplementedAuthServer) IsUserAuthorized(context.Context, *IsUserAuthorizedRequest) (*IsUserAuthorizedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsUserAuthorized not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 func (UnimplementedAuthServer) testEmbeddedByValue()              {}
@@ -206,6 +238,42 @@ func _Auth_IsAdmin_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Auth_SetAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetAdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).SetAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_SetAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).SetAdmin(ctx, req.(*SetAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Auth_IsUserAuthorized_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsUserAuthorizedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).IsUserAuthorized(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_IsUserAuthorized_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).IsUserAuthorized(ctx, req.(*IsUserAuthorizedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +296,14 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "IsAdmin",
 			Handler:    _Auth_IsAdmin_Handler,
+		},
+		{
+			MethodName: "SetAdmin",
+			Handler:    _Auth_SetAdmin_Handler,
+		},
+		{
+			MethodName: "IsUserAuthorized",
+			Handler:    _Auth_IsUserAuthorized_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
