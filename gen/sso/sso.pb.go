@@ -400,6 +400,7 @@ func (x *IsAdminResponse) GetIsAdmin() bool {
 type SetAdminRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	IsAdmin       bool                   `protobuf:"varint,2,opt,name=is_admin,json=isAdmin,proto3" json:"is_admin,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -441,9 +442,16 @@ func (x *SetAdminRequest) GetUserId() int64 {
 	return 0
 }
 
+func (x *SetAdminRequest) GetIsAdmin() bool {
+	if x != nil {
+		return x.IsAdmin
+	}
+	return false
+}
+
 type SetAdminResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	IsAdmin       bool                   `protobuf:"varint,1,opt,name=is_admin,json=isAdmin,proto3" json:"is_admin,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -478,97 +486,9 @@ func (*SetAdminResponse) Descriptor() ([]byte, []int) {
 	return file_sso_sso_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *SetAdminResponse) GetSuccess() bool {
+func (x *SetAdminResponse) GetIsAdmin() bool {
 	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-type IsUserAuthorizedRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *IsUserAuthorizedRequest) Reset() {
-	*x = IsUserAuthorizedRequest{}
-	mi := &file_sso_sso_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *IsUserAuthorizedRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*IsUserAuthorizedRequest) ProtoMessage() {}
-
-func (x *IsUserAuthorizedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_sso_sso_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use IsUserAuthorizedRequest.ProtoReflect.Descriptor instead.
-func (*IsUserAuthorizedRequest) Descriptor() ([]byte, []int) {
-	return file_sso_sso_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *IsUserAuthorizedRequest) GetUserId() int64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
-type IsUserAuthorizedResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	IsUserAuthorized bool                   `protobuf:"varint,1,opt,name=is_user_authorized,json=isUserAuthorized,proto3" json:"is_user_authorized,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *IsUserAuthorizedResponse) Reset() {
-	*x = IsUserAuthorizedResponse{}
-	mi := &file_sso_sso_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *IsUserAuthorizedResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*IsUserAuthorizedResponse) ProtoMessage() {}
-
-func (x *IsUserAuthorizedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_sso_sso_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use IsUserAuthorizedResponse.ProtoReflect.Descriptor instead.
-func (*IsUserAuthorizedResponse) Descriptor() ([]byte, []int) {
-	return file_sso_sso_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *IsUserAuthorizedResponse) GetIsUserAuthorized() bool {
-	if x != nil {
-		return x.IsUserAuthorized
+		return x.IsAdmin
 	}
 	return false
 }
@@ -596,22 +516,18 @@ const file_sso_sso_proto_rawDesc = "" +
 	"\x0eIsAdminRequest\x12\x16\n" +
 	"\x06userId\x18\x01 \x01(\x03R\x06userId\",\n" +
 	"\x0fIsAdminResponse\x12\x19\n" +
-	"\bis_admin\x18\x01 \x01(\bR\aisAdmin\"*\n" +
+	"\bis_admin\x18\x01 \x01(\bR\aisAdmin\"E\n" +
 	"\x0fSetAdminRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\",\n" +
-	"\x10SetAdminResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"2\n" +
-	"\x17IsUserAuthorizedRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\"H\n" +
-	"\x18IsUserAuthorizedResponse\x12,\n" +
-	"\x12is_user_authorized\x18\x01 \x01(\bR\x10isUserAuthorized2\xee\x02\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x19\n" +
+	"\bis_admin\x18\x02 \x01(\bR\aisAdmin\"-\n" +
+	"\x10SetAdminResponse\x12\x19\n" +
+	"\bis_admin\x18\x01 \x01(\bR\aisAdmin2\x9b\x02\n" +
 	"\x04Auth\x120\n" +
 	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\x123\n" +
 	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponse\x129\n" +
 	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponse\x126\n" +
 	"\aIsAdmin\x12\x14.auth.IsAdminRequest\x1a\x15.auth.IsAdminResponse\x129\n" +
-	"\bSetAdmin\x12\x15.auth.SetAdminRequest\x1a\x16.auth.SetAdminResponse\x12Q\n" +
-	"\x10IsUserAuthorized\x12\x1d.auth.IsUserAuthorizedRequest\x1a\x1e.auth.IsUserAuthorizedResponseB\x18Z\x16savushkin.sso.v1;ssov1b\x06proto3"
+	"\bSetAdmin\x12\x15.auth.SetAdminRequest\x1a\x16.auth.SetAdminResponseB\x18Z\x16savushkin.sso.v1;ssov1b\x06proto3"
 
 var (
 	file_sso_sso_proto_rawDescOnce sync.Once
@@ -625,39 +541,35 @@ func file_sso_sso_proto_rawDescGZIP() []byte {
 	return file_sso_sso_proto_rawDescData
 }
 
-var file_sso_sso_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_sso_sso_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_sso_sso_proto_goTypes = []any{
-	(*LoginRequest)(nil),             // 0: auth.LoginRequest
-	(*LoginResponse)(nil),            // 1: auth.LoginResponse
-	(*LogoutRequest)(nil),            // 2: auth.LogoutRequest
-	(*LogoutResponse)(nil),           // 3: auth.LogoutResponse
-	(*RegisterRequest)(nil),          // 4: auth.RegisterRequest
-	(*RegisterResponse)(nil),         // 5: auth.RegisterResponse
-	(*IsAdminRequest)(nil),           // 6: auth.IsAdminRequest
-	(*IsAdminResponse)(nil),          // 7: auth.IsAdminResponse
-	(*SetAdminRequest)(nil),          // 8: auth.SetAdminRequest
-	(*SetAdminResponse)(nil),         // 9: auth.SetAdminResponse
-	(*IsUserAuthorizedRequest)(nil),  // 10: auth.IsUserAuthorizedRequest
-	(*IsUserAuthorizedResponse)(nil), // 11: auth.IsUserAuthorizedResponse
+	(*LoginRequest)(nil),     // 0: auth.LoginRequest
+	(*LoginResponse)(nil),    // 1: auth.LoginResponse
+	(*LogoutRequest)(nil),    // 2: auth.LogoutRequest
+	(*LogoutResponse)(nil),   // 3: auth.LogoutResponse
+	(*RegisterRequest)(nil),  // 4: auth.RegisterRequest
+	(*RegisterResponse)(nil), // 5: auth.RegisterResponse
+	(*IsAdminRequest)(nil),   // 6: auth.IsAdminRequest
+	(*IsAdminResponse)(nil),  // 7: auth.IsAdminResponse
+	(*SetAdminRequest)(nil),  // 8: auth.SetAdminRequest
+	(*SetAdminResponse)(nil), // 9: auth.SetAdminResponse
 }
 var file_sso_sso_proto_depIdxs = []int32{
-	0,  // 0: auth.Auth.Login:input_type -> auth.LoginRequest
-	2,  // 1: auth.Auth.Logout:input_type -> auth.LogoutRequest
-	4,  // 2: auth.Auth.Register:input_type -> auth.RegisterRequest
-	6,  // 3: auth.Auth.IsAdmin:input_type -> auth.IsAdminRequest
-	8,  // 4: auth.Auth.SetAdmin:input_type -> auth.SetAdminRequest
-	10, // 5: auth.Auth.IsUserAuthorized:input_type -> auth.IsUserAuthorizedRequest
-	1,  // 6: auth.Auth.Login:output_type -> auth.LoginResponse
-	3,  // 7: auth.Auth.Logout:output_type -> auth.LogoutResponse
-	5,  // 8: auth.Auth.Register:output_type -> auth.RegisterResponse
-	7,  // 9: auth.Auth.IsAdmin:output_type -> auth.IsAdminResponse
-	9,  // 10: auth.Auth.SetAdmin:output_type -> auth.SetAdminResponse
-	11, // 11: auth.Auth.IsUserAuthorized:output_type -> auth.IsUserAuthorizedResponse
-	6,  // [6:12] is the sub-list for method output_type
-	0,  // [0:6] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	0, // 0: auth.Auth.Login:input_type -> auth.LoginRequest
+	2, // 1: auth.Auth.Logout:input_type -> auth.LogoutRequest
+	4, // 2: auth.Auth.Register:input_type -> auth.RegisterRequest
+	6, // 3: auth.Auth.IsAdmin:input_type -> auth.IsAdminRequest
+	8, // 4: auth.Auth.SetAdmin:input_type -> auth.SetAdminRequest
+	1, // 5: auth.Auth.Login:output_type -> auth.LoginResponse
+	3, // 6: auth.Auth.Logout:output_type -> auth.LogoutResponse
+	5, // 7: auth.Auth.Register:output_type -> auth.RegisterResponse
+	7, // 8: auth.Auth.IsAdmin:output_type -> auth.IsAdminResponse
+	9, // 9: auth.Auth.SetAdmin:output_type -> auth.SetAdminResponse
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_sso_sso_proto_init() }
@@ -671,7 +583,7 @@ func file_sso_sso_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_sso_sso_proto_rawDesc), len(file_sso_sso_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -10,7 +10,6 @@ service Auth {
   rpc Register (RegisterRequest) returns (RegisterResponse);
   rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
   rpc SetAdmin (SetAdminRequest) returns (SetAdminResponse);
-  rpc IsUserAuthorized (IsUserAuthorizedRequest) returns (IsUserAuthorizedResponse);
 }
 
 message LoginRequest {
@@ -51,16 +50,9 @@ message IsAdminResponse {
 
 message SetAdminRequest {
   int64 user_id = 1;
+  bool is_admin = 2;
 }
 
 message SetAdminResponse {
-  bool success = 1;
-}
-
-message IsUserAuthorizedRequest {
-  int64 user_id = 1;
-}
-
-message IsUserAuthorizedResponse {
-  bool is_user_authorized = 1;
+  bool is_admin = 1;
 }
